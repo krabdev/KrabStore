@@ -10,5 +10,5 @@
 }
 
 <div class="pager">
-   @Html.PagedLinks(Model.pagingInfo, x => Url.Action("List", new {Page=x}))
+   @Html.PagedLinks(Model.pagingInfo, x => Url.Action("List", new {Page=x, category = Model.CurrentCategory }))
 </div>

@@ -15,7 +15,7 @@ namespace KrabStore.WebUI.HtmlHelpers
                                                Func<int, string> pageUrl)
         {
             StringBuilder result = new StringBuilder();
-            for (int i = 1; i < pagingInfo.TotalItems; i++)
+            for (int i = 1; i <= pagingInfo.TotalItems; i++)
             {
                 TagBuilder tag = new TagBuilder("a"); //construct an <a> tag
                 tag.MergeAttribute("href", pageUrl(i));

@@ -19,11 +19,12 @@ namespace KrabStore.WebUI.Controllers
             this.repository = productRepository;
         }
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
             ProductListViewModel model = new ProductListViewModel
             {
                 Products = repository.Products
+                .Where(p => category == null || p.Category == category)
                 .OrderBy(p => p.ProductID)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize),
@@ -31,8 +32,13 @@ namespace KrabStore.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = (int)Math.Ceiling((decimal)repository.Products.Count() / pageSize) + 1
-                }
+                    TotalItems = repository.Products.Count()
+                    // TotalItems = (int)Math.Ceiling((decimal)repository.Products.Count() / pageSize) + 1
+                   // TotalItems = category == null ?
+                     //   repository.Products.Count() :
+                      //  repository.Products.Where(e => e.Category == category).Count()
+                },
+                CurrentCategory = category
             };
 
             return View(model);

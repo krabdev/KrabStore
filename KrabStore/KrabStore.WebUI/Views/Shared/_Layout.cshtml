@@ -11,13 +11,15 @@
         <div class="title">
             KRABS STORE
         </div>
-        <div id="categories">
-            We will put usefull staff here lares
-        </div>
-        <div id="content">
-            @RenderBody()
-        </div>
-    </div>
 
+    </div>
+    <div id="categories">
+        @{
+            Html.RenderAction("Menu", "Nav");
+        }
+    </div>
+    <div id="content">
+        @RenderBody()
+    </div>
 </body>
 </html>
