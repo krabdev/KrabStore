@@ -32,11 +32,9 @@ namespace KrabStore.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = repository.Products.Count()
-                    // TotalItems = (int)Math.Ceiling((decimal)repository.Products.Count() / pageSize) + 1
-                   // TotalItems = category == null ?
-                     //   repository.Products.Count() :
-                      //  repository.Products.Where(e => e.Category == category).Count()
+                    TotalItems = category == null ?
+                        repository.Products.Count() :
+                        repository.Products.Where(e => e.Category == category).Count()
                 },
                 CurrentCategory = category
             };
