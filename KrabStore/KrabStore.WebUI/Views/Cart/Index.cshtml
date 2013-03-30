@@ -8,32 +8,41 @@
 <table style="width:90%;">
     <thead>
         <tr>
-            <th align="center">Quantity</th>
-            <th align="left">Item</th>
-            <th align="right">Price</th>
-            <th align="right">Subtotal</th>
+            <th style="text-align:center">Quantity</th>
+            <th style="text-align:left">Item</th>
+            <th style="text-align:right">Price</th>
+            <th style="text-align:right">Subtotal</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var line in Model.Cart.Lines)
         {
             <tr>
-                <td align="center">@line.Quantity</td>
-                <td align="left">@line.Product.Name</td>
+                <td style="text-align:center">@line.Quantity</td>
+                <td style="text-align:left">@line.Product.Name</td>
                 <td style="text-align:right">@line.Product.Price.ToString("c")</td>
-                <td align="right">@((line.Quantity * line.Product.Price).ToString("c"))</td>
+                <td style="text-align:right">@((line.Quantity * line.Product.Price).ToString("c"))</td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                    {
+                        @Html.Hidden("ProductId", line.Product.ProductID)
+                        @Html.HiddenFor(x => x.ReturnUrl)
+                        <input  type="submit" value="remove" /> 
+                    }
+                </td>
             </tr>
         }
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" align="right">Total:</td>
-            <td align="right">
+            <td colspan="3" style="text-align:right">Total:</td>
+            <td style="text-align:right">
                 @Model.Cart.ComputeTotalvalue().ToString("c")
             </td>
         </tr>
     </tfoot>
 </table>
-<p align="center" class="actionButtons">
+<p style="text-align:center" class="actionButtons">
     <a href="@Model.ReturnUrl">Continue Shopping</a>
+    @Html.ActionLink("Checkout Now","CheckOut")
 </p>

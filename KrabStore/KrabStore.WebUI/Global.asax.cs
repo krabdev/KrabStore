@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using KrabStore.WebUI.Infrastructure;
+using KrabStore.Domain.Entities;
+using KrabStore.WebUI.Binders;
 
 namespace KrabStore.WebUI
 {
@@ -24,6 +26,7 @@ namespace KrabStore.WebUI
 
             ControllerBuilder.Current.SetControllerFactory(new
                 NinjectControllerFactory());
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
         }
     }
 }

@@ -18,35 +18,45 @@ namespace KrabStore.WebUI.Controllers
             repository = repo;
         }
 
-        public ViewResult Index(string returnUrl)
+        public ViewResult Index(Cart cart , string returnUrl)
         {
             return View(new CartIndexViewModel
             {
-                Cart = GetCart(),
+                Cart = cart,
                 ReturnUrl = returnUrl
             });
         }
 
-        public RedirectToRouteResult AddToCart(int productId, string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl)
         {
             Product product = repository.Products
                 .FirstOrDefault(p => p.ProductID == productId);
             if (product != null)
             {
-                GetCart().AddItem(product, 1);
+                cart.AddItem(product, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        private Cart GetCart()
+        public RedirectToRouteResult RemoveFromCart(Cart cart, int productID, string returnUrl)
         {
-            Cart cart = (Cart)Session["Cart"];
-            if (cart == null)
+            Product product = repository.Products
+                .FirstOrDefault(p => p.ProductID == productID);
+            if (product != null)
             {
-                cart = new Cart();
-                Session["Cart"] = cart;
+                cart.RemoveLine(product);
             }
-            return cart;
+            return RedirectToAction("Index", new { returnUrl });
+        }
+
+        public PartialViewResult Summary(Cart cart)
+        {
+            return PartialView(cart);
+        }
+
+        public ViewResult Checkout()
+        {
+            return View(new ShippingDetails());
         }
     }
 }
